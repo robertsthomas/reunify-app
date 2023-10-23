@@ -1,4 +1,9 @@
+const path = require('path')
+
 module.exports = function (api) {
+  const envPath = path.resolve(__dirname, '../../', '.env.local')
+  require('dotenv').config({ path: envPath })
+
   api.cache(true);
   return {
     presets: [['babel-preset-expo', { jsxRuntime: 'automatic' }]],
@@ -21,14 +26,14 @@ module.exports = function (api) {
       ...(process.env.EAS_BUILD_PLATFORM === 'android'
         ? []
         : [
-            [
-              '@tamagui/babel-plugin',
-              {
-                components: ['@my/ui', 'tamagui'],
-                config: './tamagui.config.ts',
-              },
-            ],
-          ]),
+          [
+            '@tamagui/babel-plugin',
+            {
+              components: ['@my/ui', 'tamagui'],
+              config: './tamagui.config.ts',
+            },
+          ],
+        ]),
       'transform-inline-environment-variables',
     ],
   };

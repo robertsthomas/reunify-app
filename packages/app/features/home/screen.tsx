@@ -9,14 +9,19 @@ import {
   XStack,
   YStack,
 } from '@my/ui'
-import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
+import useSession from 'app/hooks/useSession'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
+
+import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 
 export function HomeScreen() {
   const linkProps = useLink({
     href: '/user/nate',
   })
+
+  const sessionPayload = useSession({ includeUser: true })
+  const { isAuthenticated, login, logout, user: kindeUser } = sessionPayload
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
@@ -48,6 +53,12 @@ export function HomeScreen() {
       <XStack>
         <Button {...linkProps}>Link to user</Button>
       </XStack>
+
+      <YStack>
+        <Button {...linkProps}>Link to user</Button>
+        <Button onPress={login}>Login</Button>
+        <Button onPress={logout}>Logout</Button>
+      </YStack>
 
       <SheetDemo />
     </YStack>
